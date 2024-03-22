@@ -88,7 +88,7 @@ function main() {
         }
         console.log('Using TonApi');
         let liteClient = yield (0, client_1.getTonapiClient)();
-        const keyPair = yield (0, crypto_1.mnemonicToWalletKey)(mySeed.split(' '));
+        const keyPair = yield (0, crypto_1.mnemonicToWalletKey)(mySeed.split(','));
         const wallet = ton_2.WalletContractV4.create({
             workchain: 0,
             publicKey: keyPair.publicKey
