@@ -81,6 +81,7 @@ let go = true;
 let i = 0;
 let success = 0;
 let start = Date.now();
+let lastMinedSeed = BigInt(0);
 function main() {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
@@ -107,7 +108,7 @@ function main() {
             const giverAddress = bestGiver.address;
             const [seed, complexity, iterations] = yield getPowInfo(liteClient, core_1.Address.parse(giverAddress));
             if (seed === lastMinedSeed && mined_work) {
-                yield sleep(1000);
+                yield sleep(200);
                 continue;
             }
             const randomName = (yield (0, crypto_1.getSecureRandomBytes)(8)).toString('hex') + '.boc';
