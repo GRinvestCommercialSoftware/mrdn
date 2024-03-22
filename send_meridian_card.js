@@ -109,7 +109,7 @@ function main() {
             }
             const randomName = (yield (0, crypto_1.getSecureRandomBytes)(8)).toString('hex') + '.boc';
             const path = `bocs/${randomName}`;
-            const command = `${bin} -g ${gpu} -F 512 -t 5 ${targetAddress} ${seed} ${complexity} 999999999999999 ${giverAddress} ${path}`;
+            const command = `${bin} -g ${gpu} -F 512 -t 10 ${targetAddress} ${seed} ${complexity} 999999999999999 ${giverAddress} ${path}`;
             // console.log('cmd', command)
             let output;
             try {
