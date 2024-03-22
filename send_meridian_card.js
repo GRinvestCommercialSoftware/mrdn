@@ -73,10 +73,6 @@ function getPowInfo(liteClient, address) {
     });
 }
 
-function sleep (ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 let go = true;
 let i = 0;
 let success = 0;
@@ -108,7 +104,7 @@ function main() {
         while (go) {
             const [seed, complexity, iterations] = yield getPowInfo(liteClient, core_1.Address.parse(giverAddress));
             if (seed === lastMinedSeed && mined_work) {
-                yield delay(200);
+                yield delay(100);
                 continue;
             }
             const randomName = (yield (0, crypto_1.getSecureRandomBytes)(8)).toString('hex') + '.boc';
