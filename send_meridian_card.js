@@ -72,6 +72,11 @@ function getPowInfo(liteClient, address) {
         }
     });
 }
+
+function sleep (ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 let go = true;
 let i = 0;
 let success = 0;
@@ -146,6 +151,8 @@ function main() {
                     }
                 }
                 yield sendMinedBoc(wallet, seqno, keyPair, giverAddress, core_1.Cell.fromBoc(mined)[0].asSlice().loadRef());
+                // Ожидание 15 секунд
+                yield sleep(15000);
             }
         }
     });
