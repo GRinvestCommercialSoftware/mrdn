@@ -102,9 +102,14 @@ function main() {
         const targetAddress = TARGET_ADDRESS !== null && TARGET_ADDRESS !== void 0 ? TARGET_ADDRESS : wallet.address.toString({ bounceable: false, urlSafe: true });
         console.log('Target address:', targetAddress);
         console.log('Date, time, status, seed, attempts, successes, timespent');
+        let mined_work = false;
         while (go) {
             const giverAddress = bestGiver.address;
             const [seed, complexity, iterations] = yield getPowInfo(liteClient, core_1.Address.parse(giverAddress));
+            if (seed === lastMinedSeed && mined_work) {
+                yield delay(200);
+                continue;
+            }
             const randomName = (yield (0, crypto_1.getSecureRandomBytes)(8)).toString('hex') + '.boc';
             const path = `bocs/${randomName}`;
             const command = `${bin} -g ${gpu} -F 256 -t 5 ${targetAddress} ${seed} ${complexity} 999999999999999 ${giverAddress} ${path}`;
@@ -126,8 +131,10 @@ function main() {
             }
             if (!mined) {
                 console.log(`${formatTime()}: not mined`, seed.toString(16).slice(0, 4), i++, success, Math.floor((Date.now() - start) / 1000));
+                mined_work = false;
             }
             if (mined) {
+                mined_work = true;
                 const [newSeed] = yield getPowInfo(liteClient, core_1.Address.parse(giverAddress));
                 if (newSeed !== seed) {
                     console.log('Mined already too late seed');
@@ -151,8 +158,6 @@ function main() {
                     }
                 }
                 yield sendMinedBoc(wallet, seqno, keyPair, giverAddress, core_1.Cell.fromBoc(mined)[0].asSlice().loadRef());
-                // Ожидание 15 секунд
-                yield sleep(15000);
             }
         }
     });
