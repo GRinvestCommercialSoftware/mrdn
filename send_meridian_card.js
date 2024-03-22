@@ -107,7 +107,7 @@ function main() {
             const giverAddress = bestGiver.address;
             const [seed, complexity, iterations] = yield getPowInfo(liteClient, core_1.Address.parse(giverAddress));
             if (seed === lastMinedSeed && mined_work) {
-                yield delay(200);
+                yield sleep(1000);
                 continue;
             }
             const randomName = (yield (0, crypto_1.getSecureRandomBytes)(8)).toString('hex') + '.boc';
