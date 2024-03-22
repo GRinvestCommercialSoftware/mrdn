@@ -104,11 +104,11 @@ function main() {
         console.log('Target address:', targetAddress);
         console.log('Date, time, status, seed, attempts, successes, timespent');
         let mined_work = false;
+        const giverAddress = bestGiver.address;
         while (go) {
-            const giverAddress = bestGiver.address;
             const [seed, complexity, iterations] = yield getPowInfo(liteClient, core_1.Address.parse(giverAddress));
             if (seed === lastMinedSeed && mined_work) {
-                yield sleep(200);
+                yield delay(200);
                 continue;
             }
             const randomName = (yield (0, crypto_1.getSecureRandomBytes)(8)).toString('hex') + '.boc';
