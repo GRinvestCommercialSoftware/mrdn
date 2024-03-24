@@ -101,8 +101,9 @@ function main() {
         console.log('Date, time, status, seed, attempts, successes, timespent');
         let mined_work = false;
         const giverAddress = bestGiver.address;
+        const giverParseAddres = core_1.Address.parse(giverAddress);
         while (go) {
-            const [seed, complexity, iterations] = yield getPowInfo(liteClient, core_1.Address.parse(giverAddress));
+            const [seed, complexity, iterations] = yield getPowInfo(liteClient, giverParseAddres);
             if (seed === lastMinedSeed && mined_work) {
                 yield delay(100);
                 continue;
@@ -132,7 +133,7 @@ function main() {
             }
             if (mined) {
                 mined_work = true;
-                const [newSeed] = yield getPowInfo(liteClient, core_1.Address.parse(giverAddress));
+                const [newSeed] = yield getPowInfo(liteClient, giverParseAddres);
                 if (newSeed !== seed) {
                     console.log('Mined already too late seed');
                     continue;
